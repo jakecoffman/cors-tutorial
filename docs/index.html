@@ -86,9 +86,7 @@
   async function getAllRepos() {
     const url = "https://github.com/jakecoffman?tab=repositories"
     try {
-      await fetch(url, {
-        method: 'delete'
-      })
+      await fetch(url)
     } catch (e) {
       alert(e)
     }
