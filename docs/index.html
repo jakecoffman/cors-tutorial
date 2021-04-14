@@ -44,12 +44,104 @@
           }
       }
 
+      script {
+          display: block;
+          font-family: monospace;
+          white-space: pre;
+          border: 1px solid;
+          margin: 2em 1em;
+          padding-bottom: 1em;
+          font-size: .95rem;
+      }
+
   </style>
 </head>
 <body>
 <h1>CORS tutorial</h1>
 <p>CORS can be confusing for beginners. Here's an interactive introduction.</p>
 
+<h2>A long time ago...</h2>
+
+<p>
+  When JavaScript was first created, any site could create a script to make requests to another site.
+  This means that it could easily be abused to make calls to do things like steal information from a user.
+</p>
+
+<p>
+  So to fix this, <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy">same-origin policy</a>
+  was created. This means the browser protects the user by preventing a malicious site from gathering your data from
+  another site.
+</p>
+
+<h2>Example 1: View all my private repos</h2>
+
+<p>
+  This is the call the GitHub UI makes to list repositories. Click the "GET all repos" to try it out.
+</p>
+
+<script>
+  async function getAllRepos() {
+    const url = "https://github.com/jakecoffman?tab=repositories"
+    try {
+      await fetch(url, {
+        method: 'delete'
+      })
+    } catch (e) {
+      alert(e)
+    }
+  }
+</script>
+
+<button onclick="getAllRepos()">GET all repos</button>
+
+<p>
+  The alert I get says "TypeError: Failed to fetch", but if you open the console it also says:
+</p>
+
+<code>Access to fetch at 'https://github.com/jakecoffman/cors-tutorial/settings/delete' from origin
+  'https://www.jakecoffman.com/cors-tutorial' has been blocked by CORS policy: Response to preflight request doesn't
+  pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque
+  response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.</code>
+
+<p>
+  So even though I am currently logged in to GitHub when I click this, my browser is preventing the JavaScript from
+  grabbing my private repos and doing nefarious things with it.
+</p>
+
+<p>
+  Also GitHub is probably blocking the request too since the Origin header is set by the browser. That prevents you from
+  forcing me to delete my own repos with a script.
+</p>
+
+<h2>Example 2: Access-Control-Allow-Origin</h2>
+
+<p>
+  httpbin is a site that lets you test out HTTP calls, so they set the <code>Access-Control-Allow-Origin</code> header
+  to your <code>Origin</code> so the call will work. Try it out:
+</p>
+
+<script>
+  async function post() {
+    const result = await fetch('https://httpbin.org/post', {
+      method: 'post',
+      body: JSON.stringify({hello: 'world!'})}
+    )
+    alert(await result.text())
+  }
+</script>
+
+<button onclick="post()">POST to httpbin.org</button>
+
+<p>
+  If you open the Network tab in Developer Tools you can look at the header yourself.
+</p>
+
+<h2>That's It!</h2>
+
+<p>
+  That is the basis of all CORS headers. The browser is trying to protect you from evil-doers and their JavaScript that
+  is running on your machine!
+</p>
 
 </body>
 </html>
