@@ -54,6 +54,9 @@
           font-size: .95rem;
       }
 
+      code {
+          background: #262626;
+      }
   </style>
 </head>
 <body>
@@ -98,10 +101,10 @@
   The alert I get says "TypeError: Failed to fetch", but if you open the console it also says:
 </p>
 
-<code>Access to fetch at 'https://github.com/jakecoffman/cors-tutorial/settings/delete' from origin
-  'https://www.jakecoffman.com/cors-tutorial' has been blocked by CORS policy: Response to preflight request doesn't
-  pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque
-  response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.</code>
+<code>Access to fetch at 'https://github.com/jakecoffman?tab=repositories' from origin 'https://www.jakecoffman.com'
+  has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No
+  'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs,
+  set the request's mode to 'no-cors' to fetch the resource with CORS disabled.</code>
 
 <p>
   So even though I am currently logged in to GitHub when I click this, my browser is preventing the JavaScript from
